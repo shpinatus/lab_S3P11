@@ -1,5 +1,3 @@
-// S3P11 Структуры. Вариант 14 «Тарификация»
-// Исполнитель: Нестеренко М., группа ИКТГ-2521
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -8,21 +6,17 @@
 
 using namespace std;
 
-// Тариф оператора связи
 struct Tariff
 {
-    int id;            // уникальный идентификатор
-    string name;       // название тарифа
-    string provider;   // оператор
-    string type;       // вид услуги
-    double price;      // абонентская плата, руб./мес.
-    int minutes;       // пакет минут
-    double traffic;    // пакет интернета, ГБ
+    int id;
+    string name;
+    string provider;
+    string type;
+    double price;
+    int minutes;
+    double traffic;
 };
 
-// ---------- вспомогательные функции ----------
-
-// Длина строки UTF-8 в символах (для выравнивания таблицы)
 int utf8Length(const string& s)
 {
     int len = 0;
@@ -32,7 +26,6 @@ int utf8Length(const string& s)
     return len;
 }
 
-// Дополнение строки пробелами до ширины w символов
 string pad(const string& s, int w)
 {
     int len = utf8Length(s);
@@ -46,7 +39,6 @@ string trim(const string& s)
     return b == string::npos ? "" : s.substr(b, e - b + 1);
 }
 
-// Разбор целого числа из строки
 bool parseInt(const string& s, int& value)
 {
     istringstream in(trim(s));
@@ -54,7 +46,6 @@ bool parseInt(const string& s, int& value)
     return !in.fail() && in.eof();
 }
 
-// Разбор вещественного числа из строки
 bool parseDouble(const string& s, double& value)
 {
     istringstream in(trim(s));
@@ -62,7 +53,6 @@ bool parseDouble(const string& s, double& value)
     return !in.fail() && in.eof();
 }
 
-// Ввод целого числа с клавиатуры с проверкой
 int readInt(const string& prompt)
 {
     string line;
@@ -78,7 +68,6 @@ int readInt(const string& prompt)
     }
 }
 
-// Ввод неотрицательного вещественного числа с проверкой
 double readDouble(const string& prompt)
 {
     string line;
@@ -94,7 +83,6 @@ double readDouble(const string& prompt)
     }
 }
 
-// Ввод непустой строки без символа-разделителя ';'
 string readString(const string& prompt)
 {
     string line;
@@ -118,7 +106,6 @@ int findById(const Tariff* arr, int n, int id)
     return -1;
 }
 
-// Увеличение ёмкости динамического массива в 2 раза
 void grow(Tariff*& arr, int n, int& capacity)
 {
     int newCapacity = capacity == 0 ? 4 : capacity * 2;
@@ -130,9 +117,6 @@ void grow(Tariff*& arr, int n, int& capacity)
     capacity = newCapacity;
 }
 
-// ---------- функции программы ----------
-
-// Чтение данных из файла в динамический массив
 bool readFromFile(const string& fileName, Tariff*& arr, int& n, int& capacity)
 {
     ifstream fin(fileName);
@@ -182,7 +166,6 @@ bool readFromFile(const string& fileName, Tariff*& arr, int& n, int& capacity)
     return true;
 }
 
-// Просмотр данных, хранящихся в массиве
 void printTable(const Tariff* arr, int n)
 {
     if (n == 0)
@@ -207,7 +190,6 @@ void printTable(const Tariff* arr, int n)
     cout << line << "\n";
 }
 
-// Корректировка данных заданной строки
 void editRecord(Tariff* arr, int n)
 {
     int id = readInt("Введите id записи для корректировки: ");
@@ -242,7 +224,6 @@ void editRecord(Tariff* arr, int n)
     printTable(arr + i, 1);
 }
 
-// Добавление записи
 void addRecord(Tariff*& arr, int& n, int& capacity)
 {
     Tariff t;
@@ -263,7 +244,6 @@ void addRecord(Tariff*& arr, int& n, int& capacity)
     cout << "Запись добавлена.\n";
 }
 
-// Удаление записи
 void deleteRecord(Tariff* arr, int& n)
 {
     int id = readInt("Введите id удаляемой записи: ");
@@ -279,7 +259,6 @@ void deleteRecord(Tariff* arr, int& n)
     cout << "Запись удалена.\n";
 }
 
-// Вычисления
 void calculate(const Tariff* arr, int n)
 {
     if (n == 0)
@@ -324,7 +303,6 @@ void calculate(const Tariff* arr, int n)
         cout << "  таких тарифов нет\n";
 }
 
-// Сохранение данных в новом файле
 void saveToFile(const Tariff* arr, int n)
 {
     string fileName = readString("Введите имя нового файла: ");
